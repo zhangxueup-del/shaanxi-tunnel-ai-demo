@@ -1,0 +1,84 @@
+{
+  "taskId": "qinsui-one-map-redesign",
+  "validatedAt": "2026-09-06",
+  "deliveryClaim": "real-project-acceptance",
+  "authenticationRequired": false,
+  "build": {
+    "status": "passed",
+    "command": "node node_modules/vite/bin/vite.js build",
+    "modulesTransformed": 1569,
+    "outputDirectory": "dist"
+  },
+  "pageVisual": {
+    "status": "passed",
+    "designBranch": "existing-reference",
+    "reference": "用户提供的GIS工作台截图与后续明确修正",
+    "browserFamily": "chrome",
+    "runner": "cloud-cdp",
+    "viewport": {
+      "width": 1363,
+      "height": 936,
+      "dpr": 1
+    },
+    "observations": [
+      "系统名称完整显示",
+      "智能诊断与模型中心顶部框架完整显示",
+      "左侧AI助手、中心二维地图、右侧隧道档案保持同屏",
+      "档案展开时地图控件和图例自动上移，不再互相遮挡"
+    ]
+  },
+  "businessLogic": {
+    "status": "passed",
+    "checks": [
+      "搜索包家山后结果数量由33/33变为1/33",
+      "点击节点后右侧实体档案切换为包家山隧道",
+      "模型中心可打开并返回智能诊断",
+      "底部方向与分段切换后当前分段详情同步",
+      "使用非敏感头像图片执行上传测试",
+      "五阶段诊断完成并显示2条病害实例",
+      "形成诊断记录后档案条数由3条增加到4条",
+      "页面自身console error/warn为0"
+    ]
+  },
+  "gis": {
+    "status": "passed-with-external-key-pending",
+    "engine": "Leaflet 1.9.4",
+    "boundary": "用户提供的陕西省_省.geojson，EPSG:4490",
+    "fallbackImagery": {
+      "service": "EOxCloudless Sentinel-2 2025",
+      "loadedTiles": 85,
+      "totalTiles": 85,
+      "status": "passed"
+    },
+    "tiandituImagery": {
+      "implementation": "img_w + cia_w WMTS",
+      "configuration": "VITE_TIANDITU_TK",
+      "status": "not-run",
+      "missingExternalInput": "天地图浏览器端Key及部署域名白名单"
+    },
+    "checks": [
+      "陕西边界、路网、33条隧道节点可见",
+      "地图飞行定位、缩放、复位与图层开关可操作",
+      "源坐标与示意赋位节点在视觉和文字中明确区分"
+    ]
+  },
+  "publicDeployment": {
+    "status": "passed",
+    "url": "https://qin-tunnel-ai-demo.zhangxueup.chatgpt.site/",
+    "access": "public"
+  },
+  "sourceRepository": {
+    "status": "passed",
+    "url": "https://github.com/zhangxueup-del/shaanxi-tunnel-ai-demo",
+    "branch": "main",
+    "visibility": "public"
+  },
+  "blockers": [
+    {
+      "id": "TDT-KEY",
+      "owner": "user",
+      "missingExternalInput": "天地图浏览器端Key及将最终部署域名加入白名单",
+      "impact": "公开站点当前使用备用影像；配置后自动启用天地图影像与中文注记。"
+    }
+  ]
+}
