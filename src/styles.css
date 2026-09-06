@@ -3121,6 +3121,16 @@ select:focus-visible {
 }
 .dock-layout > .record-list > button > i { height: 35px; }
 
+.map-controls {
+  bottom: 72px;
+  z-index: 710;
+}
+
+.workspace:has(.history-dock.open) .map-controls,
+.workspace:has(.history-dock.open) .map-legend {
+  bottom: 334px;
+}
+
 @media (max-width: 1220px) {
   .map-source-banner { top: 72px; }
   .dock-layout { grid-template-columns: 1fr; }
@@ -3128,12 +3138,17 @@ select:focus-visible {
   .dock-content { height: 258px; overflow-y: auto; }
   .dock-layout > .record-list { height: 120px; }
   .linear-profile { height: auto; }
+  .workspace:has(.history-dock.open) .map-controls,
+  .workspace:has(.history-dock.open) .map-legend { bottom: 320px; }
 }
 
 @media (max-width: 900px) {
   .map-source-banner { top: 164px; min-width: 0; width: calc(100% - 170px); }
   .map-source-banner span { display: none; }
   .history-dock.open { height: 300px; }
+  .map-controls { bottom: 58px; }
+  .workspace:has(.history-dock.open) .map-controls { bottom: 316px; }
+  .workspace:has(.history-dock.open) .map-legend { display: none; }
   .lining-strip { grid-template-columns: repeat(2, minmax(90px, 1fr)); }
   .linear-profile { min-width: 440px; }
   .dock-layout { overflow-x: auto; }
