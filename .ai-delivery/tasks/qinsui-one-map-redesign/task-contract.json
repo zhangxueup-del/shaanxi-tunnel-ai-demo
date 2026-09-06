@@ -1,0 +1,113 @@
+{
+  "taskId": "qinsui-one-map-redesign",
+  "taskType": "presales",
+  "deliveryContext": "presales",
+  "requestText": "在用户提供的 DeepSeek Harness 工程约束与参考界面风格下，重新生成秦隧质检 Demo；保留系统名称和智能诊断/模型中心顶部框架，使用二维天地图影像服务，并融合检查报告启发的病害档案与处置闭环。",
+  "routeDecision": "用户明确要求 Demo 与整体重构，锁定 presales；不因已有宿主或单页形态降级为局部小改。",
+  "methodRoot": "/workspace/scratch/9725e58b6506/analysis_extract/project/web-skyland-AIBranch",
+  "hostRoot": "/workspace/sites/qin-tunnel-ai-demo",
+  "writeRoots": ["/workspace/sites/qin-tunnel-ai-demo"],
+  "intent": "在既有 Vue 3/Vite/Leaflet Demo 中，把地图查询、AI诊断、隧道档案、评定链和处置闭环融合到单一二维GIS工作台，并形成可部署源码。",
+  "scopeResolution": "resolved-from-request-and-materials",
+  "taskComplexity": "complex",
+  "workMode": "normal",
+  "workModeSource": "task-type-presales",
+  "workModeIntent": "deliver",
+  "deliveryIntent": "presales-demo",
+  "formalDeliveryClaim": false,
+  "inScope": [
+    "Vue单页地图工作台",
+    "天地图影像与注记服务配置",
+    "用户提供的陕西省GeoJSON",
+    "隧道节点筛选、点选和飞行定位",
+    "图片上传与Demo诊断流程",
+    "报告启发的方向/分段/病害/证据/评定/处置结构",
+    "GitHub与静态部署配置"
+  ],
+  "outOfScope": [
+    "真实算法推理与Java后端",
+    "生产数据库与登录权限",
+    "三维地图或三维运行时",
+    "真实工程测量结论"
+  ],
+  "hostConstraints": {
+    "stack": "Vue 3 script setup + Vite + Leaflet + lucide-vue-next",
+    "architecture": "轻量单页Demo，不引入与宿主规模不匹配的monorepo或新框架",
+    "data": "隧道空间精度、健康值、诊断结果和线性展开图均显式区分来源数据与Demo示意",
+    "secrets": "天地图Key仅通过VITE_TIANDITU_TK注入，不写入源码或Git",
+    "build": "npm run build，输出dist"
+  },
+  "hostInstructionReview": {
+    "checkedDirectories": [
+      "/workspace/sites/qin-tunnel-ai-demo",
+      "/workspace/sites/qin-tunnel-ai-demo/src",
+      "/workspace/sites/qin-tunnel-ai-demo/src/data"
+    ],
+    "sources": [
+      {
+        "path": "/workspace/scratch/9725e58b6506/analysis_extract/project/web-skyland-AIBranch/AGENTS.md",
+        "scope": "公共方法与工程硬约束",
+        "status": "read",
+        "summary": "presales正常模式；真实DOM与交互；P0动作、GIS真实性、视觉和业务验证不可省略。"
+      },
+      {
+        "path": "/workspace/sites/qin-tunnel-ai-demo/AGENTS.md",
+        "scope": "宿主根",
+        "status": "missing",
+        "summary": "宿主无独立Agent规则，技术约束由README、package.json和现有代码确认。"
+      }
+    ],
+    "conflicts": []
+  },
+  "inputs": [
+    "参考截图：76323316-442e-4acf-a39d-cbcb5eb27e88.png",
+    "工程约束：deepseek harness使用.zip",
+    "边界：陕西省_省.geojson（EPSG:4490）",
+    "隧道数据：陕西省隧道地理实体数据集_空间赋位初版.xlsx",
+    "报告：青兰高速壶口至雷家角段隧道2021年度定期检查报告.pdf",
+    "报告：024蓝商大报告.pdf"
+  ],
+  "knowledgeRefs": [
+    "路线→隧道→方向/单洞→100m分段/衬砌环→构件→病害实例→证据→评定→处置→报告",
+    "AI置信度、病害状况值、构件评分、JGCI和技术等级分开表达",
+    "病害生命周期区分新增、既有、发展和已处置"
+  ],
+  "requiredActions": [
+    { "id": "R1", "entry": "页面加载", "action": "默认加载用户提供的陕西省边界、示意路网、33条隧道节点及全局统计", "implementation": "Leaflet + src/data/shaanxi-boundary.json + tunnels.json", "visibleResult": "陕西省轮廓、路网、节点和统计可见", "verification": "浏览器默认态检查" },
+    { "id": "R2", "entry": "顶部地图筛选栏", "action": "按名称、路线、状态及空间赋位筛选并同步地图节点", "implementation": "src/App.vue#filteredTunnels", "visibleResult": "数量与节点同步变化", "verification": "浏览器筛选正常/空结果/重置" },
+    { "id": "R3", "entry": "隧道节点", "action": "点击节点后地图飞行定位并同步右侧实体档案和AI上下文", "implementation": "src/App.vue#selectTunnel", "visibleResult": "节点高亮、右栏与关联隧道同步", "verification": "浏览器点选与重复切换" },
+    { "id": "R4", "entry": "AI助手上传区", "action": "上传图片、绑定隧道并执行影像质检与五阶段AI诊断", "implementation": "src/App.vue#startDiagnosis", "visibleResult": "扫描过程、进度阶段与结果可见", "verification": "浏览器上传正常/文件限制/重复识别" },
+    { "id": "R5", "entry": "诊断结果卡", "action": "区分病害、正常、人工复核三类结果并分开展示置信度与严重等级", "implementation": "src/App.vue#buildDiagnosisResult", "visibleResult": "三种结果语义和处置建议明确", "verification": "切换不同健康状态隧道执行诊断" },
+    { "id": "R6", "entry": "形成诊断记录", "action": "生成记录并在当前隧道档案即时显示", "implementation": "src/App.vue#saveRecord", "visibleResult": "底部档案条数增加并选中新记录", "verification": "浏览器保存与重复保存" },
+    { "id": "R7", "entry": "底部档案栏", "action": "按方向和100m示意分段查看构件评分、病害空间类型及生命周期", "implementation": "src/App.vue#tunnelLinearProfile", "visibleResult": "二维衬砌展开条带和当前分段详情联动", "verification": "浏览器方向/分段切换" },
+    { "id": "R8", "entry": "图层与地图控件", "action": "图层显隐、地图缩放复位、面板收起及记录调取均可交互", "implementation": "src/App.vue#template", "visibleResult": "所有可见P0入口均有反馈", "verification": "浏览器逐项回归" }
+  ],
+  "assetMapping": [
+    "地图能力：复用宿主Leaflet初始化、图层组、marker和flyTo",
+    "边界数据：替换为用户提供陕西省GeoJSON原文件",
+    "图标：复用lucide-vue-next",
+    "头像：复用public/tunnel-doctor-avatar.png",
+    "视觉：继承参考界面的全屏影像地图、左AI、右档案、青绿细边框与顶部双模块框架"
+  ],
+  "validation": {
+    "profiles": ["page-visual", "business-logic", "gis"],
+    "claimLevel": "real-project-acceptance",
+    "authenticationRequired": false
+  },
+  "verificationPlan": {
+    "buildPolicy": "required-for-presales-delivery",
+    "checks": [
+      "npm run build",
+      "浏览器默认态与1920x1080视觉检查",
+      "地图加载、节点点选、筛选、图层显隐和复位",
+      "图片上传、绑定、诊断、结果标签和记录归档",
+      "方向/分段/病害详情切换",
+      "无天地图Key时备用影像可用；部署环境Key只通过环境变量注入"
+    ]
+  },
+  "output": {
+    "code": "Vue/Vite Demo源码与部署配置",
+    "debt": "真实算法、正式分级规则、道路中心线和生产隧道台账待后续接入",
+    "terminationState": "continue-working"
+  }
+}
