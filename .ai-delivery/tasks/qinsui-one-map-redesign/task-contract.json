@@ -108,6 +108,7 @@
   "output": {
     "code": "Vue/Vite Demo源码与部署配置",
     "debt": "真实算法、正式分级规则、道路中心线和生产隧道台账待后续接入",
-    "terminationState": "continue-working"
+    "terminationState": "blocked-external-input",
+    "blocker": "公开站点已使用备用影像完成验收；天地图实际激活仍需用户在部署环境配置浏览器端Key。"
   }
 }
